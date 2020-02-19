@@ -4,6 +4,7 @@ const bodyParser = require("body-parser"); //to require body parser module
 
 const request = require("request"); //to require request
 
+require('dotenv').config();
 
 const app = express();
 
@@ -32,17 +33,18 @@ app.post("/", function(req, res) {
                 }
             }]
         }
-        //converting your data object to jason
+        //converting your data object to json
     var jsonData = JSON.stringify(data)
 
     var option = {
         url: "https://us4.api.mailchimp.com/3.0/lists/a08e88c48e",
         method: "POST",
-        headers: { "Authorization": "Adedunmola db7091e8e1a75fc272c14b40abb7af8b-us4" }, //To Authorise myself on mailchimp server
+        headers: { "Authorization": "Adedunmola " + process.env.API_KEY },
         body: jsonData //Data that willbe posted
     }
 
     request(option, function(error, response, body) {
+        console.log(response.statusCode);
         if (error) {
             res.sendFile(__dirname + "/failure.html");
         } else {
